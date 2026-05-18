@@ -75,15 +75,14 @@ class SimpleNN(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(2),
 
-            #converts into 1d vector
+            nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
 
-            # compresses learned features into 512 neurons
-            nn.Linear(128 * 28 * 28, 512),
+            nn.Linear(128, 512),
             nn.ReLU(),
 
             nn.Dropout(0.5),
-            # 37 class scores
+
             nn.Linear(512, 37)
         )
     # defines how data flows through the network
