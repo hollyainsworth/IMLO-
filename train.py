@@ -68,13 +68,7 @@ train_dataset = datasets.OxfordIIITPet(
     transform=train_transform
 )
 
-test_dataset = datasets.OxfordIIITPet(
-    root="data",
-    split="test",
-    target_types="category",
-    download=True,
-    transform=test_transform
-)
+
 
 
 # DataLoaders
@@ -83,12 +77,6 @@ train_loader = DataLoader(
     train_dataset,
     batch_size=batch_size,
     shuffle=True
-)
-
-test_loader = DataLoader(
-    test_dataset,
-    batch_size=batch_size,
-    shuffle=False
 )
 
 
@@ -171,7 +159,7 @@ optimizer = torch.optim.Adam(
 
 def train(model, train_loader, criterion, optimizer, epochs):
 
-    best_test_accuracy = 0
+    
 
     for epoch in range(epochs):
 
