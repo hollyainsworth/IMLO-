@@ -7,7 +7,7 @@ from torchvision.transforms import v2
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-learning_rate = 0.001
+learning_rate = 0.0001
 batch_size = 32
 epochs = 30
 
@@ -76,34 +76,50 @@ class SimpleNN(nn.Module):
             # ReLU activation function introduces non-linearity
             # MaxPool2d with kernel size 2 reduces spatial dimensions by half (downsampling)
             #increseas to learm higher and higher level pattens
+
+            # Block 1
             nn.Conv2d(3, 32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.Conv2d(32, 32, kernel_size=3, padding=1),
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(2),
 
-            # Convolution Block 2
+            # Block 2
             nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),
             nn.BatchNorm2d(64),
             nn.ReLU(),
             nn.MaxPool2d(2),
 
-            # Convolution Block 3
+            # Block 3
             nn.Conv2d(64, 128, kernel_size=3, padding=1),
             nn.BatchNorm2d(128),
+            nn.ReLU(),
+            nn.Conv2d(128, 128, kernel_size=3, padding=1),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+
+            # Block 4
+            nn.Conv2d(128, 256, kernel_size=3, padding=1),
+            nn.BatchNorm2d(256),
             nn.ReLU(),
             nn.MaxPool2d(2),
 
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
 
-            nn.Linear(128, 512),
+            nn.Linear(256, 512),
             nn.ReLU(),
-
             nn.Dropout(0.5),
 
             nn.Linear(512, 37)
         )
-    # defines how data flows through the network
+
     def forward(self, x):
         return self.network(x)
 
@@ -164,7 +180,7 @@ def evaluate(model, test_loader):
 
             correct += (predicted == labels).sum().item()
 
-    print(f"Accuracy: {100 * correct / total:.2f}%")
+    print(f" EvaluationAccuracy: {100 * correct / total:.2f}%")
 
 
 # Train and evaluate the model
