@@ -96,7 +96,7 @@ class SimpleNN(nn.Module):
 #optimiser updates the model to improve it
 model = SimpleNN().to(device)
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 # Training loop
 def train(model, train_loader, criterion, optimizer, epochs):
