@@ -167,36 +167,6 @@ optimizer = torch.optim.Adam(
 )
 
 
-# Evaluation Function
-
-def evaluate(model, loader, split="Test"):
-
-    model.eval()
-
-    correct = 0
-    total = 0
-
-    with torch.no_grad():
-
-        for images, labels in loader:
-
-            images = images.to(device)
-            labels = labels.to(device)
-
-            outputs = model(images)
-
-            _, predicted = torch.max(outputs, 1)
-
-            total += labels.size(0)
-
-            correct += (predicted == labels).sum().item()
-
-    accuracy = 100 * correct / total
-
-    print(f"{split} Accuracy: {accuracy:.2f}%")
-
-    return accuracy
-
 # Training Function
 
 def train(model, train_loader, criterion, optimizer, epochs):
@@ -231,31 +201,6 @@ def train(model, train_loader, criterion, optimizer, epochs):
         print(f"Epoch {epoch + 1}/{epochs}")
         print(f"Loss: {avg_loss:.4f}")
 
-        # Training accuracy
-        train_accuracy = evaluate(
-            model,
-            train_loader,
-            split="Training"
-        )
-
-        # Test accuracy
-        test_accuracy = evaluate(
-            model,
-            test_loader,
-            split="Test"
-        )
-
-        # Save best model
-        if test_accuracy > best_test_accuracy:
-
-            best_test_accuracy = test_accuracy
-
-            torch.save(
-                model.state_dict(),
-                "model.pth"
-            )
-
-            print("Best model saved.\n")
 
 
 # Run Training
