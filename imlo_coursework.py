@@ -96,7 +96,7 @@ class SimpleNN(nn.Module):
 #optimiser updates the model to improve it
 model = SimpleNN().to(device)
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate
 
 # Training loop
 def train(model, train_loader, criterion, optimizer, epochs):
@@ -108,7 +108,7 @@ def train(model, train_loader, criterion, optimizer, epochs):
         for images, labels in train_loader:
 
             images = images.to(device)
-            labels = labels.to(device)
+            labels = (labels-1).to(device)
 
             optimizer.zero_grad()
 
@@ -137,7 +137,7 @@ def evaluate(model, test_loader):
         for images, labels in test_loader:
 
             images = images.to(device)
-            labels = labels.to(device)
+            labels = (labels-1).to(device)
 
             outputs = model(images)
 
@@ -153,4 +153,5 @@ def evaluate(model, test_loader):
 # Train and evaluate the model
 train(model, train_loader, criterion, optimizer, epochs)
 
+evaluate(model, test_loader)
 evaluate(model, test_loader)
