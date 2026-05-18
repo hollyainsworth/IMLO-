@@ -154,4 +154,3 @@ def evaluate(model, test_loader):
 train(model, train_loader, criterion, optimizer, epochs)
 
 evaluate(model, test_loader)
-evaluate(model, test_loader)
