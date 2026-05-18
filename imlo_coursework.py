@@ -1,4 +1,3 @@
-# define imports
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
@@ -107,7 +106,7 @@ def train(model, train_loader, criterion, optimizer, epochs):
         for images, labels in train_loader:
 
             images = images.to(device)
-            labels = (labels-1).to(device)
+            labels = labels = labels.to(device)
 
             optimizer.zero_grad()
 
@@ -136,7 +135,7 @@ def evaluate(model, test_loader):
         for images, labels in test_loader:
 
             images = images.to(device)
-            labels = (labels-1).to(device)
+            labels = labels = labels.to(device)
 
             outputs = model(images)
 
