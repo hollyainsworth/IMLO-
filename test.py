@@ -43,8 +43,8 @@ test_loader = DataLoader(
 
 class SimpleNN(nn.Module):
 
-    def init(self):
-        super().init()
+    def __init__(self):
+        super().__init__()
 
         self.network = nn.Sequential(
 
@@ -118,14 +118,14 @@ correct = 0
 total = 0
 with torch.no_grad():
 
-    for images, labels in testloader:
+    for images, labels in test_loader:
 
         images = images.to(device)
         labels = labels.to(device)
 
         outputs = model(images)
 
-        , predicted = torch.max(outputs, 1)
+        _,predicted = torch.max(outputs, 1)
 
         total += labels.size(0)
 
