@@ -39,6 +39,18 @@ test_loader = DataLoader(
     shuffle=False
 )
 
+train_dataset = datasets.OxfordIIITPet(
+    root="data",    
+    split="trainval",
+    target_types="category",
+    download=True,
+    transform=test_transform
+)
+train_loader = DataLoader(
+    train_dataset,
+    batch_size=32,
+    shuffle=False
+)
 #Model Definition
 
 class SimpleNN(nn.Module):
@@ -114,23 +126,25 @@ model.eval()
 
 #Evaluation
 
-correct = 0
-total = 0
-with torch.no_grad():
+def evaluate(test_loader):
+    correct = 0
+    total = 0
 
-    for images, labels in test_loader:
+    with torch.no_grad():
+        for images, labels in test_loader:
+            images = images.to(device)
+            labels = labels.to(device)
 
-        images = images.to(device)
-        labels = labels.to(device)
+            outputs = model(images)
+            _, predicted = torch.max(outputs, 1)
 
-        outputs = model(images)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
 
-        _,predicted = torch.max(outputs, 1)
+    accuracy = 100 * correct / total
+    return accuracy
 
-        total += labels.size(0)
 
-        correct += (predicted == labels).sum().item()
+print(f"Test Accuracy: {evaluate(test_loader):.2f}%")
+print(f"Train Accuracy: {evaluate(train_loader):.2f}%")
 
-accuracy = 100 * correct / total
-
-print(f"Test Accuracy: {accuracy:.2f}%")
